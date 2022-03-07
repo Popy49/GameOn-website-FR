@@ -31,18 +31,21 @@ img {
 }
 
 .topnav {
+  display: flex;
+  justify-content: space-between;
   overflow: hidden;
   margin: 3.5%;
 }
-.header-logo {
-    float: left;
-}
+
 .main-navbar {
-    float: right;
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  flex-wrap: wrap;
+  align-self: right;
+  justify-content: flex-end;
 }
 .topnav a {
-  float: left;
-  display: block;
   color: #000000;
   text-align: center;
   padding: 12px 12px;
@@ -69,15 +72,16 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .topnav a {display: none;}
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
   }
-}
-
-@media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
+  .topnav.responsive {
+    position: relative;
+  }
   .topnav.responsive .icon {
     position: absolute;
     right: 0;
@@ -88,18 +92,24 @@ img {
     display: block;
     text-align: left;
   }
+
+  .main-navbar {
+    flex-direction: column;
+  }
 }
 
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
+@media screen and (max-width: 540px) {
+  .topnav a {
+    display: none;
   }
-} 
+  .topnav a.icon {
+    display: block;
+  }
+
+  .topnav.responsive {
+    display: block;
+  }
+}
 
 main {
   font-size: 130%;
@@ -111,8 +121,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -527,3 +535,14 @@ footer {
   }
 }
 
+.flex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.endMsg {
+  text-align: center;
+  margin: auto;
+}
