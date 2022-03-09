@@ -76,7 +76,6 @@ img {
     display: none;
   }
   .topnav a.icon {
-    float: right;
     display: block;
   }
   .topnav.responsive {
@@ -88,9 +87,12 @@ img {
     top: 0;
   }
   .topnav.responsive a {
-    float: none;
     display: block;
     text-align: left;
+  }
+
+  .topnav.responsive a:first-child {
+    margin-top: 50px;
   }
 
   .main-navbar {
@@ -234,12 +236,12 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
+
 input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
-} */
+  content: attr(data-error);
+  font-size: 0.4em;
+  color: red;
+}
 .checkbox-label,
 .checkbox2-label {
   position: relative;
@@ -430,6 +432,13 @@ input[data-error]::after {
   text-align: left;
   min-width: 424px;
 }
+
+@media screen and (max-width: 540px) {
+  .hero-content {
+    min-width: 100px;
+  }
+}
+
 .hero-content::after {
   content: "";
   width: 100%;
@@ -448,6 +457,7 @@ input[data-error]::after {
   font-weight: normal;
   white-space: nowrap;
 }
+
 .hero-text {
   width: 146%;
   font-weight: normal;
@@ -468,6 +478,7 @@ input[data-error]::after {
 .hero-img img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
   display: block;
   padding: 0;
 }
@@ -486,6 +497,13 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
+@media screen and (max-width: 990px) {
+  .hero-headline {
+    font-size: 5rem;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -494,7 +512,7 @@ footer {
   .hero-content {
     background: #fff;
     color: #000;
-    padding: 20px;
+    padding: 0;
   }
   .hero-content::after {
     content: unset;
@@ -503,7 +521,8 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
+    font-size: 3rem;
+    font-weight: 600;
     white-space: normal;
   }
   .hero-text {
@@ -538,7 +557,7 @@ footer {
 .flex {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 80vh;
   justify-content: space-between;
 }
 

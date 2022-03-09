@@ -30,316 +30,88 @@ function closeModal() {
   modalbg.style.display = "none";
 }
 
-// div error creation
-function errorMsg(field, message){
-  var tempDiv = document.createElement('div');
-  tempDiv.setAttribute("class", "errorMsg");
-  tempDiv.innerHTML = message;
-  field.insertAdjacentElement('afterend',tempDiv);
-  // field.insertAdjacentHTML('afterend', message);
+// error message creation
+function errorMsg(i, message){
+  formData[i].setAttribute("data-error", message);
+  formData[i].setAttribute("data-error-visible", "true");
 }
 
-// div error clear
+// error message clear
 function errorMsgClear(){
-  tab = document.querySelectorAll('.errorMsg')
-  tab.forEach.call( tab, function( node ) {
-    node.parentNode.removeChild( node );
-});
-}
-
-function isValidname(value) {
-  return /^[A-Za-z\é\è\ê\-]{2,}$/.test(value);
-}
-
-function isValidmail(value) {
-  return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
-}
-
-
-function isValidmaildate(value) {
-  return /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/.test(value);
-}
-
-function isValidmaildate(value) {
-  return /^[1-9]+$/.test(value);
-}
-
-function isValid(value) {
-  switch (value) {
-    case first:
-      // if(!/^[A-Za-z\é\è\ê\-]{2,}$/.test(value.value)){
-      //   errorMsg(value, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-      //   value.focus(); 
-      //   console.log("lala");
-      //   return /^[A-Za-z\é\è\ê\-]{2,}$/.test(value.value);
-      // }
-      errorMsg(value, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-      value.focus(); 
-      console.log("lala");
-      return /^[A-Za-z\é\è\ê\-]{2,}$/.test(value.value);
-      break;
-    case email:
-      errorMsg(email, 'Vous devez entrer une adresse email valide');
-      return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value.value);
-      break;
-    case birthdate:
-      errorMsg(birthdate, 'Veuillez entrer votre date de naissance');
-      return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value.value);
-      break;
-    case quantity:
-      errorMsg(quantity, 'Veuillez entrer un nombre');
-      return /^[1-9]+$/.test(value);
-    default:
-      break;
+  for (var i=0; i<(formData.length-2); i++){
+  formData[i].setAttribute("data-error-visible", "false");
   }
 }
 
 
+// Check all form parameters 
+function checking() {
+  var x=0;
+  var location = document.forms["reserve"]["location"];
+  var checkbox1 = document.forms["reserve"]["checkbox1"];  
+
+  for (var i=0; i<(formData.length-2); i++){
+    var expression;
+    var message;
+    switch (formData[i].childNodes[4].id){
+      case 'first':
+      case 'last':
+        expression = /^[A-Za-z\é\è\ê\-]{2,}$/;
+        message= 'Veuillez entrer 2 caractères ou plus pour le champ du nom';
+        break;
+      case 'email':
+        expression = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        message= 'Vous devez entrer une adresse email valide';
+        break;
+      case 'birthdate':
+        expression = /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/;
+        message= 'Veuillez entrer votre date de naissance';
+        break;
+      case 'quantity':
+        expression = /^[1-9]+$/;
+        message= 'Veuillez entrer un nombre';
+        break;
+      default:
+        break;
+    }
+      
+    if(!expression.test(formData[i].childNodes[4].value)) {
+      errorMsg(i, message)
+      x++;
+    } 
+
+    if (location.value == "")                               
+    { 
+        errorMsg(5, 'Vous devez choisir une option');
+        x++;
+    } 
+
+    if (!checkbox1.checked)                  
+    { 
+        errorMsg(6, 'Vous devez vérifier que vous acceptez les termes et conditions');
+        x++;
+    } 
+
+  }
+  return x;
+};
+
+// Ending message valid form
+function endingPopUp() {
+  var endMsg = document.querySelectorAll('.modal-body');
+  endMsg[0].innerHTML="<div class='flex'><div class='endMsg'>Merci pour votre inscription</div><button onClick=closeModal() class='btn-submit'>Fermer</button></div>";
+}
 
 
 // form validation
 function validate()                                    
 { 
     errorMsgClear();
-
-    var first = document.forms["reserve"]["first"];
-    var last = document.forms["reserve"]["last"];
-    var email = document.forms["reserve"]["email"];
-    var birthdate =  document.forms["reserve"]["birthdate"];
-    var quantity = document.forms["reserve"]["quantity"];
-    var location = document.forms["reserve"]["location"];
-    var checkbox1 = document.forms["reserve"]["checkbox1"];  
-    var dateDay = new Date().toISOString().split('T')[0];
-
-
-    
-    // var champs = {(document.forms["reserve"]["first"]) : /^[1-9]+$/, x : /^[A-Za-z\é\è\ê\-]{2,}$/}
-
-    // for (const property in champs) {
-    //   // if (!(champs[property].test(property.value)))                                  
-    //   // { 
-    //   //     // errorMsg(property, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //   //     // property.focus(); 
-    //   //     // alert("lala");
-    //   //     // return false; 
-          
-    //   // } 
-    //   console.log(property)
-    // }
-    // champs.forEach(field => {
-    //   // switch (field) {
-    //   //   case first:
-    //   //   case last:
-    //   //     errorMsg(first, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //   //     return /^[A-Za-z\é\è\ê\-]{2,}$/.test(field.value);
-    //   //     break;
-    //   //   case email:
-    //   //     /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(field.value);
-    //   //     break;
-    //   //   default:
-    //   //     break;
-    //   // }
-
-    //   if (field == first || field == last){
-    //       errorMsg(first, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //       return /^[A-Za-z\é\è\ê\-]{2,}$/.test(field.value);
-    //   }
-    //   return false;
-    // });
-
-    // if (!(isValid(first)))                                  
-    // { 
-    //     return false; 
-    // } 
-
-    // if (!(isValid(last)))                                  
-    // { 
-    //     return false; 
-    // } 
-
-    // if (!(isValid(first)) || !(isValid(last)) || !(isValid(email)) || !(isValid(birthdate)) || !(isValid(quantity)))                                  
-    // { 
-    //     return false; 
-    // } 
-
-    // var arr = [first, last]
-
-    // for (var i in arr) {
-    //   if (!(/^[A-Za-z\é\è\ê\-]{2,}$/.test(arr[i].value)))                                  
-    //   { 
-    //       errorMsg(arr[i], 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //       arr[i].focus(); 
-    //       return false; 
-    //   } 
-    // }
-
-    // if (!(/^[A-Za-z\é\è\ê\-]{2,}$/.test(first.value)))                                  
-    // { 
-    //     errorMsg(first, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //     first.focus(); 
-    //     return false; 
-    // } 
-
-    // if (!(/^[A-Za-z\é\è\ê\-]{2,}$/.test(last.value)))                                  
-    // { 
-    //     errorMsg(last, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //     last.focus(); 
-    //     return false; 
-    // } 
-
-    // if (!(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email.value)))                                  
-    // { 
-    //     errorMsg(email, 'Vous devez entrer une adresse email valide');
-    //     email.focus(); 
-    //     return false; 
-    // } 
-
-    // if (!(expression.test(name.value)))                                  
-    // { 
-    //     errorMsg(name, message);
-    //     name.focus(); 
-    //     return false; 
-    // } 
-  
-  const emailField = {
-    name: email,
-    expression: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-    message: 'Vous devez entrer une adresse email valide'
-    };
-    
-  const firstField = {
-    name: first,
-    expression: /^[A-Za-z\é\è\ê\-]{2,}$/,
-    message: 'Veuillez entrer 2 caractères ou plus pour le champ du nom'
-    };
-
-  const lastField = {
-    name: last,
-    expression: /^[A-Za-z\é\è\ê\-]{2,}$/,
-    message: 'Veuillez entrer 2 caractères ou plus pour le champ du nom'
-    };
-  
-  const birthdateField = {
-    name: birthdate,
-    expression: /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/,
-    message: 'Veuillez entrer votre date de naissance'
-    };
-
-  const quantityField = {
-    name: quantity,
-    expression: /^[1-9]+$/,
-    message: 'Veuillez entrer un nombre'
-    };
-
-  function isValidate() {
-    console.log(this.expression);
-    console.log(this.name.value);
-    if (!(this.expression.test(this.name.value)))                                  
-      { 
-          errorMsg(this.name, this.message);
-          this.name.focus();
-          console.log("lala");
-          return false;
-      } 
-      return true;
-  };
-  emailField.isValidate = isValidate;
-  firstField.isValidate = isValidate;
-  lastField.isValidate = isValidate;
-  birthdateField.isValidate = isValidate;
-  quantityField.isValidate = isValidate;
-  if (!firstField.isValidate() || !emailField.isValidate() || !lastField.isValidate() || !birthdateField.isValidate() || !quantityField.isValidate()){
-    return false;
-  }
-
-
-
-
-// function Field(name, expression, message) {
-//       this.name = name;
-//       this.expression = expression;
-//       this.message = message;
-// }
-
-// let email = new Field(email, /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Vous devez entrer une adresse email valide')
-
-// isValid(){
-//   if (!(expression.test(name.value)))                                  
-//   { 
-//       errorMsg(name, message);
-//       name.focus(); 
-//       return false; 
-//   } 
-// }
-
-    // champs.forEach(field => {
-    //   if (!(expression.test(field.value)))                                  
-    //   { 
-    //       errorMsg(field, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //       field.focus(); 
-    //       return false; 
-    //   } 
-
-      
-    // });
-
-  // console.log(isValid(first));
-    
-  // isValid(first);
-  // isValid(email);
-
-    // if (first.value.length < 2)                                  
-    // { 
-    //     errorMsg(first, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //     first.focus(); 
-    //     return false; 
-        
-    // } 
-    // if (last.value.length < 2)                                  
-    // { 
-    //     errorMsg(last, 'Veuillez entrer 2 caractères ou plus pour le champ du nom');
-    //     last.focus(); 
-    //     return false; 
-    // } 
-    // if (email.value == "" || email.value.indexOf("@", 0) < 0 || email.value.indexOf(".", 0) < 0)                                   
-    // { 
-    //   errorMsg(email, 'Vous devez entrer une adresse email valide');
-    //   email.focus(); 
-    //   return false; 
-    // } 
-
-    // if (isNaN(quantity.value))                                  
-    // { 
-    //     errorMsg(quantity, 'Veuillez entrer un nombre');
-    //     quantity.focus(); 
-    //     return false; 
-    // }
-    
-    // if (birthdate.value == '' ||  dateDay < birthdate.value)                                  
-    // { 
-    //     errorMsg(birthdate, 'Veuillez entrer votre date de naissance');
-    //     birthdate.focus(); 
-    //     return false; 
-    // } 
-
-    if (location.value == "")                               
-    { 
-        var field = document.getElementById('locate');
-        errorMsg(field, 'Vous devez choisir une option');
-        field.focus(); 
-        return false; 
-    }        
-   
-
-    if (!checkbox1.checked)                  
-    { 
-        errorMsg(checkbox1, 'Vous devez vérifier que vous acceptez les termes et conditions');
-        checkbox1.focus(); 
-        return false; 
-    } 
-    
-    var endMsg = document.querySelectorAll('.modal-body')
-    endMsg[0].style.height = "80vh";
-    endMsg[0].innerHTML="<div class='flex'><div class='endMsg'>Merci pour votre inscription</div><button onClick=closeModal() class='btn-submit'>Fermer</button></div>"
+    var x = checking();
+    checking();
+    if(x>0){
+      return false;
+    }
+    endingPopUp();
     return true; 
 }
