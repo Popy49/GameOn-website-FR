@@ -212,7 +212,8 @@ function editNav() {
   
       var location = document.forms["reserve"]["location"];
       var checkbox1 = document.forms["reserve"]["checkbox1"];  
-  
+
+
     const firstField = {
       name: document.forms["reserve"]["first"],
       expression: /^[A-Za-z\é\è\ê\-]{2,}$/,
