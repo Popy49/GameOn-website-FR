@@ -67,8 +67,9 @@ class Field {
 const firstField = new Field(
   document.forms["reserve"]["first"],
   /^[A-Za-z\é\è\ê\-]{2,}$/,
-  'Veuillez entrer 2 caractères ou plus pour le champ du nom'
+  'Veuillez entrer 2 caractères littéraux ou plus pour le champ du prénom, sans caractères spéciaux'
   );
+
 
 const emailField = new Field(
   document.forms["reserve"]["email"],
@@ -78,8 +79,8 @@ const emailField = new Field(
 
 const lastField = new Field(
   document.forms["reserve"]["last"],
-  /^[A-Za-z\é\è\ê\-]{2,}$/,
-  'Veuillez entrer 2 caractères ou plus pour le champ du nom'
+  /^([A-Za-z\é\è\ê\-]{2,})+([A-Za-z\é\è\ê\-\ ]*)+([A-Za-z\é\è\ê\-]{2,})$/,
+  'Veuillez entrer 2 caractères littéraux ou plus pour le champ du nom, sans caractères spéciaux'
 );
 
 const birthdateField = new Field(
