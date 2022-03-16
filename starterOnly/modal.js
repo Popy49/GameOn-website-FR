@@ -102,7 +102,7 @@ function checking() {
   var checkbox1 = document.forms["reserve"]["checkbox1"];  
   var x=0;
   for (var i=0; i<fields.length; i++){
-      formData[i].childNodes[4].setAttribute("data-error", "false");  
+      // formData[i].childNodes[4].setAttribute("data-error", "false");  
     if(!fields[i].regex.test(fields[i].selector.value)) {
       errorMsg(fields[i].selector, fields[i].message);
       x++;

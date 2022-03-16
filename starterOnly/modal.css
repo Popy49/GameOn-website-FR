@@ -42,7 +42,7 @@ img {
   flex-direction: row;
   white-space: nowrap;
   flex-wrap: wrap;
-  align-self: right;
+  align-self: flex-end;
   justify-content: flex-end;
 }
 .topnav a {
